@@ -2,22 +2,45 @@
 
 let contactData;
 
-const getContactData = (array) => {
+const URL_CONTACT = "https://agenda-de-contactos-2021.herokuapp.com/apiv1/contact"
+const getContactData = async(array) => {
 
-	let inputContactName = document.getElementById('inputContactName').value;
-	let inputContactNumber = document.getElementById('inputContactNumber').value;
-	let inputContactAddress = document.getElementById('inputContactAddress').value;
+	let inputContactName = document.getElementById('inputContactName');
+	let inputContactNumber = document.getElementById('inputContactNumber');
+	let inputContactAddress = document.getElementById('inputContactAddress');
 
-	if (inputContactName && inputContactNumber && inputContactAddress) {
+	let contactName = inputContactName.value;
+	let contactNumber = inputContactNumber.value;
+	let contactAddress = inputContactAddress.value;
+
+	if (contactName && contactNumber && contactAddress) {
+		await fetch(URL_CONTACT, {
+			method: "POST",
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				contactName,
+				contactNumber,
+				contactAddress
+			})
+		});
 		contactData.push({
-			inputContactName,
-			inputContactNumber,
-			inputContactAddress
+			contactName,
+			contactNumber,
+			contactAddress
 		})
 
-		localStorage.setItem('contactDataObj', JSON.stringify(contactData));
+		console.log(contactData)
 
-		appendDataToTable(contactData)
+		//localStorage.setItem('contactDataObj', JSON.stringify(contactData));
+
+		appendDataToTable(contactData);
+
+		inputContactName.value = ""; //limpiar inputs
+		inputContactNumber.value = "";
+		inputContactAddress.value = "";
+
 
 	} else {
 		alert("no has completado todos los datos")
@@ -35,7 +58,7 @@ const appendDataToTable = (arr) => {
 
 	for (let i = 0; i < arr.length; i++) {
 
-		let nameNumberAndAddress = document.createTextNode(`Nombre: ${arr[i].inputContactName} | Número: ${arr[i].inputContactNumber} | Dirección: ${arr[i].inputContactAddress}`);
+		let nameNumberAndAddress = document.createTextNode(`Nombre: ${arr[i].contactName} | Número: ${arr[i].contactNumber} | Dirección: ${arr[i].contactAddress}`);
 
 		let contactList_ul = document.createElement("ul");
 		let contactListColumn_li = document.createElement("li");
@@ -47,8 +70,6 @@ const appendDataToTable = (arr) => {
 		contactListColumn_li.classList.add("list-group-item");
 		contactListDelete_img.classList.add("material-icons");
 
-
-
 		contactList_ul.appendChild(contactListColumn_li);
 		contactListColumn_li.appendChild(nameNumberAndAddress);
 		contactListColumn_li.appendChild(contactListDelete_img);
@@ -57,7 +78,7 @@ const appendDataToTable = (arr) => {
 			deleteSomeContact(`${Number(i)}`);
 		};
 
-		let showContactData = document.getElementById('showContactData');
+		let showContactData = document.getElementById('showContactData'); //los agrego al HTML
 
 		showContactData.appendChild(contactList_ul);
 
@@ -65,28 +86,35 @@ const appendDataToTable = (arr) => {
 
 }
 
-const deleteSomeContact = (buttonNum) => {
+const deleteSomeContact = async(buttonNum) => {
 
 	contactData.splice(buttonNum, 1)
 
-	localStorage.setItem('contactDataObj', JSON.stringify(contactData));
+	//localStorage.setItem('contactDataObj', JSON.stringify(contactData));
+
+	await fetch(`${URL_CONTACT}/${buttonNum}`, {
+		method: "DELETE"
+	})
 
 	appendDataToTable(contactData)
 
 	alert("elemento borrado: " + buttonNum)
 
 }
-	 contactData = JSON.parse(localStorage.getItem('contactDataObj'));
 
-document.addEventListener('DOMContentLoaded', () => {
+
+//contactData = JSON.parse(localStorage.getItem('contactDataObj'));
+
+document.addEventListener('DOMContentLoaded',async() => {
 	document.getElementById('buttonGetData').addEventListener('click', getContactData);
 
+	
+	contactData = await (await fetch(URL_CONTACT)).json() 
+	
 	if (!contactData) {
 		contactData = [];
 	}
 
 	appendDataToTable(contactData)
 
-
 })
-
