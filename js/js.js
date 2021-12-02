@@ -1,6 +1,6 @@
 'use strict'
 
-let contactData = [];
+let contactData;
 
 const getContactData = (array) => {
 
@@ -76,11 +76,10 @@ const deleteSomeContact = (buttonNum) => {
 	alert("elemento borrado: " + buttonNum)
 
 }
+	 contactData = JSON.parse(localStorage.getItem('contactDataObj'));
 
 document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('buttonGetData').addEventListener('click', getContactData);
-
-	let contactData = JSON.parse(localStorage.getItem('contactDataObj'));
 
 	if (!contactData) {
 		contactData = [];
@@ -90,3 +89,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 })
+
