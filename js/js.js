@@ -31,8 +31,6 @@ const getContactData = async(array) => {
 			contactAddress
 		})
 
-		console.log(contactData)
-
 		//localStorage.setItem('contactDataObj', JSON.stringify(contactData));
 
 		appendDataToTable(contactData);
@@ -60,17 +58,14 @@ const appendDataToTable = (arr) => {
 
 		let nameNumberAndAddress = document.createTextNode(`Nombre: ${arr[i].contactName} | Número: ${arr[i].contactNumber} | Dirección: ${arr[i].contactAddress}`);
 
-		let contactList_ul = document.createElement("ul");
 		let contactListColumn_li = document.createElement("li");
 		let contactListDelete_img = document.createElement("img");
 
 		contactListDelete_img.src = 'img/1x/baseline_delete_black_24dp.png';
 
-		contactList_ul.classList.add("list-group");
 		contactListColumn_li.classList.add("list-group-item");
 		contactListDelete_img.classList.add("material-icons");
 
-		contactList_ul.appendChild(contactListColumn_li);
 		contactListColumn_li.appendChild(nameNumberAndAddress);
 		contactListColumn_li.appendChild(contactListDelete_img);
 
@@ -80,7 +75,7 @@ const appendDataToTable = (arr) => {
 
 		let showContactData = document.getElementById('showContactData'); //los agrego al HTML
 
-		showContactData.appendChild(contactList_ul);
+		showContactData.appendChild(contactListColumn_li);
 
 	}
 
@@ -97,8 +92,6 @@ const deleteSomeContact = async(buttonNum) => {
 	})
 
 	appendDataToTable(contactData)
-
-	alert("elemento borrado: " + buttonNum)
 
 }
 

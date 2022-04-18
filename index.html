@@ -1,55 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Mi lista de Contactos</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/css.css">
 </head>
 <body class="container bg-light">
-	<head>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="css/css.css">
-	</head>
 		
-		
-	<section class="col-sm-10 col-sm offset-1 text-center">
-		<article>
-			<!--TITULO-->
-			<div>
-				<h1 class="d-flex justify-content-center">AGENDA DE CONTACTOS</h1>
+	<section class="section">
+		<article class="complete-container">
+			<div class="register-container">
+				<!--TITULO-->
+				<h1 class="title">AGREGAR CONTACTO</h1>
+				<form class="form">
+				  <div class="inputs-container">
+				    <label for="exampleInputEmail1">Nombre</label>
+				    <input type="text" class="form-control" id="inputContactName" placeholder="Nombre">
+				  </div>
+				  <div class="inputs-container">
+				    <label for="exampleInputPassword1">Número de Contacto</label>
+				    <input type="text" class="form-control" id="inputContactNumber" placeholder="(+598) 90000000 ">
+				  </div>
+				  <div class="inputs-container">
+				    <label for="exampleInputPassword1">Dirección</label>
+				    <input type="text" class="form-control" id="inputContactAddress" placeholder="Avenida Siempreviva 742">
+				  </div>
+				</form>
+				<input type="button" name="name" class="button-primary" value="AGREGAR CONTACTO" id="buttonGetData">
 			</div>
-			<form>
-			  <div class="form-group text-left">
-			    <label for="exampleInputEmail1">Nombre</label>
-			    <input type="text" class="form-control" id="inputContactName">
-			  </div>
-			  <div class="form-group text-left">
-			    <label for="exampleInputPassword1">Número de Contacto</label>
-			    <input type="text" class="form-control" id="inputContactNumber">
-			  </div>
-			  <div class="form-group text-left">
-			    <label for="exampleInputPassword1">Dirección</label>
-			    <input type="text" class="form-control" id="inputContactAddress">
-			  </div>
-			  <div>
-				<input type="button" name="name" class="btn btn-success" value="AGREGAR CONTACTO" id="buttonGetData">
-			  </div>
-			</form>
-		</article>
-		</br>
-		<article id="showContactData">
-			
+			<div class="contacts-container">
+				<h2 class="subtitle">CONTACTOS</h2>
+
+				<div class="contacts-info">
+					<ul id="showContactData">
+						
+					</ul>
+				</div>
+				<p class="my-page">Creado por Cristian Díaz</p>
+			</div>
 		</article>
 	</section>
-
-
-
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="js/js.js"></script>
 </body>
 	
