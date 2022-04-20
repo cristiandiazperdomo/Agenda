@@ -1,9 +1,7 @@
-'use strict'
-
-let contactData;
+let contacts;
 
 const URL_CONTACT = "https://agenda-de-contactos-2021.herokuapp.com/apiv1/contact"
-const getContactData = async(array) => {
+const getContactInfoFromInputs = async (array) => {
 
 	let inputContactName = document.getElementById('inputContactName');
 	let inputContactNumber = document.getElementById('inputContactNumber');
@@ -25,89 +23,68 @@ const getContactData = async(array) => {
 				contactAddress
 			})
 		});
-		contactData.push({
+		contacts.push({
 			contactName,
 			contactNumber,
 			contactAddress
 		})
 
-		//localStorage.setItem('contactDataObj', JSON.stringify(contactData));
+		//localStorage.setItem('contactsObj', JSON.stringify(contacts));
 
-		appendDataToTable(contactData);
+		appendDataToTable(contacts);
 
-		inputContactName.value = ""; //limpiar inputs
+		inputContactName.value = ""; //CLEAN INPUTS
 		inputContactNumber.value = "";
 		inputContactAddress.value = "";
 
-
 	} else {
-		alert("no has completado todos los datos")
+		alert("No has completado todos los datos")
 	}
 
 }
 
-const appendDataToTable = (arr) => {
+const appendDataToTable = (contacts) => {
+	const listUl_HTML = document.getElementById('showContactData');
 
-	const listaGroup = document.querySelectorAll(".list-group"); //limpiar lista de contactos
+	listUl_HTML.innerHTML = ""; // CLEAN LIST
 
-	for (let i = 0; i < listaGroup.length; i++) {
-		listaGroup[i].remove()
-	}
-
-	for (let i = 0; i < arr.length; i++) {
-
-		let nameNumberAndAddress = document.createTextNode(`Nombre: ${arr[i].contactName} | Número: ${arr[i].contactNumber} | Dirección: ${arr[i].contactAddress}`);
-
-		let contactListColumn_li = document.createElement("li");
-		let contactListDelete_img = document.createElement("img");
-
-		contactListDelete_img.src = 'img/1x/baseline_delete_black_24dp.png';
-
-		contactListColumn_li.classList.add("list-group-item");
-		contactListDelete_img.classList.add("material-icons");
-
-		contactListColumn_li.appendChild(nameNumberAndAddress);
-		contactListColumn_li.appendChild(contactListDelete_img);
-
-		contactListDelete_img.onclick = function() {
-			deleteSomeContact(`${Number(i)}`);
-		};
-
-		let showContactData = document.getElementById('showContactData'); //los agrego al HTML
-
-		showContactData.appendChild(contactListColumn_li);
-
+	for (let i = 0; i < contacts.length; i++) {
+		listUl_HTML.innerHTML += `
+			<li class="list-group-item">
+				Nombre: ${contacts[i].contactName} | Número: ${contacts[i].contactNumber} | Dirección: ${contacts[i].contactAddress}
+				<img src="img/1x/baseline_delete_black_24dp.png" alt="delete" onclick={deleteSomeContact(${Number(i)})} />	
+			</li>
+		`
 	}
 
 }
 
-const deleteSomeContact = async(buttonNum) => {
+const deleteSomeContact = async (buttonNum) => {
 
-	contactData.splice(buttonNum, 1)
+	contacts.splice(buttonNum, 1)
 
-	//localStorage.setItem('contactDataObj', JSON.stringify(contactData));
+	//localStorage.setItem('contactsObj', JSON.stringify(contacts));
 
 	await fetch(`${URL_CONTACT}/${buttonNum}`, {
 		method: "DELETE"
 	})
 
-	appendDataToTable(contactData)
+	appendDataToTable(contacts)
 
 }
 
+//contacts = JSON.parse(localStorage.getItem('contactsObj'));
 
-//contactData = JSON.parse(localStorage.getItem('contactDataObj'));
+document.addEventListener('DOMContentLoaded', async () => {
+	document.getElementById('buttonGetData').addEventListener('click', getContactInfoFromInputs);
 
-document.addEventListener('DOMContentLoaded',async() => {
-	document.getElementById('buttonGetData').addEventListener('click', getContactData);
 
-	
-	contactData = await (await fetch(URL_CONTACT)).json() 
-	
-	if (!contactData) {
-		contactData = [];
+	contacts = await (await fetch(URL_CONTACT)).json()
+
+	if (!contacts) {
+		contacts = [];
 	}
 
-	appendDataToTable(contactData)
+	appendDataToTable(contacts)
 
 })
